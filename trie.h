@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include <vector>
+#include <fstream>  
 #include <string>
 #define ALPHABET_SIZE 26
 
@@ -16,6 +16,6 @@ bool search(TrieNode* root, const std::string& key);
 bool isEmpty(TrieNode* root);
 TrieNode* remove(TrieNode* root, const std::string& key, int depth = 0);
 void autocomplete(TrieNode* root, std::string& prefix);
-void getPostfixes(TrieNode* root, char buf[], int ind, std::string& res, const std::string& prefix);
+void getWords(TrieNode* root, char buf[], int ind, std::string& res, const std::string& prefix);
 
 

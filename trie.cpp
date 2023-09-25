@@ -89,7 +89,7 @@ void autocomplete(TrieNode* root, std::string& prefix)
     int index = prefix[0] - 'a';
     if (!root->children[index])
     {
-        std::cout << "There is no word starts with this letter in the dictionary.\nYou can add it yourself by entering the whole word: ";
+        std::cout << "\n There is no word starts with this letter in the dictionary.\n You can add it yourself by entering the whole word: ";
         std::string newWord;
         std::cin >> newWord;
         insert(root, newWord);
@@ -101,16 +101,46 @@ void autocomplete(TrieNode* root, std::string& prefix)
             char buf[1000];
             int ind = 0;
             std::string res;
+            TrieNode* node = nullptr;
             if (prefix.size() == 1)
-                getPostfixes(root->children[index], buf, ind, res, prefix);
+            {
+                node = root->children[index];
+                getWords(node, buf, ind, res, prefix);
+            }
             else
-                getPostfixes(getNode(root, prefix), buf, ind, res, prefix);
-            std::cout << res;
-            
+            {
+                node = getNode(root, prefix);
+                getWords(node, buf, ind, res, prefix);
+            }
+            int k = -1;
+            for (int i = 0; i < node->counter; ++i)
+            {
+                std::string tmp;
+                for (int j = k + 1; j < res.size(); ++j)
+                {
+                    if (res[j] == ' ')
+                        break;
+                    tmp.push_back(res[j]);
+                    ++k;
+                }
+                std::cout << "\n Word version " << i + 1 << ": " << tmp << "\t confirm(y): ";
+                char choice = '0';
+                std::cin.clear();
+                std::cin.ignore(std::cin.rdbuf()->in_avail());
+                std::cin >> choice;
+                if (choice == 'y')
+                {
+                    std::cout << "\n Result: " << tmp << std::endl;
+                    return;
+                }
+                else
+                    ++k;
+            }
+            std::cout << "\n There are no more words in the dictionary with this prefix.\n";
         }
         else
         {
-            std::cout << "There is no word starts with this prefix in the dictionary.\nYou can add it yourself by entering the whole word: ";
+            std::cout << "\n There is no word starts with this prefix in the dictionary.\n You can add it yourself by entering the whole word: ";
             std::string newWord;
             std::cin >> newWord;
             insert(root, newWord);
@@ -118,7 +148,7 @@ void autocomplete(TrieNode* root, std::string& prefix)
     }
 }
 
-void getPostfixes(TrieNode* root, char buf[], int ind, std::string& res, const std::string& prefix)
+void getWords(TrieNode* root, char buf[], int ind, std::string& res, const std::string& prefix)
 {
     if (root == nullptr)
         return;
@@ -131,13 +161,13 @@ void getPostfixes(TrieNode* root, char buf[], int ind, std::string& res, const s
                 if (root->children[i] != nullptr)
                 {
                     buf[ind] = 'a' + i;
-                    getPostfixes(root->children[i], buf, ind + 1, res, prefix);
+                    getWords(root->children[i], buf, ind + 1, res, prefix);
                 }
             }
         }
         buf[ind] = '\0';
         res.append(prefix + buf);
-        res.push_back('\n');
+        res.push_back(' ');
         return;
     }
     for (int i = 0; i < ALPHABET_SIZE; i++)
@@ -145,7 +175,7 @@ void getPostfixes(TrieNode* root, char buf[], int ind, std::string& res, const s
         if (root->children[i] != nullptr)
         {
             buf[ind] = 'a' + i;
-            getPostfixes(root->children[i], buf, ind + 1, res, prefix);
+            getWords(root->children[i], buf, ind + 1, res, prefix);
         }
     }
 }

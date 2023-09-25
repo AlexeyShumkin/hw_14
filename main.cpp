@@ -17,9 +17,29 @@ int main()
 	insert(root, k5);
 	insert(root, k6);
 	insert(root, k7);
-	std::string prefix;
-	std::cout << "Start typing the word: ";
-	std::cin >> prefix;
-	autocomplete(root, prefix);
-	
+	bool open = true;
+	do
+	{
+		std::cout << " Start/continue(1), exit(2): ";
+		char choice = '0';
+		std::cin.clear();
+		std::cin.ignore(std::cin.rdbuf()->in_avail());
+		std::cin >> choice;
+		std::string prefix;
+		switch (choice)
+		{
+		case '1':
+			std::cout << "\n Start typing the word: ";
+			std::cin >> prefix;
+			autocomplete(root, prefix);
+			break;
+		case '2':
+			std::cout << "\n Goodbye!";
+			open = false;
+			break;
+		default:
+			std::cout << "\n Your command is unclear. Please, select an action from the list:\n";
+		}
+		std::cout << '\n';
+	} while (open);
 }
