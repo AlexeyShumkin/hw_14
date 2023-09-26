@@ -1,12 +1,10 @@
 #pragma once
 #include <iostream>
-#include <fstream>  
 #include <string>
-#define ALPHABET_SIZE 26
-
+constexpr int alphabetSize = 26;
 struct TrieNode
 {
-	TrieNode* children[ALPHABET_SIZE];
+	TrieNode* children[alphabetSize];
 	int counter = 0;
 	bool isEndOfWord;
 };
@@ -17,5 +15,5 @@ bool isEmpty(TrieNode* root);
 TrieNode* remove(TrieNode* root, const std::string& key, int depth = 0);
 void autocomplete(TrieNode* root, std::string& prefix);
 void getWords(TrieNode* root, char buf[], int ind, std::string& res, const std::string& prefix);
-
+void erase(TrieNode* root);
 

@@ -2,14 +2,18 @@
 
 int main()
 {
+	using namespace std::string_literals;
 	TrieNode* root = getNewNode();
-	std::string k1 = "ball";
-	std::string k2 = "base";
-	std::string k3 = "baseball";
-	std::string k4 = "brand";
-	std::string k5 = "brain";
-	std::string k6 = "bort";
-	std::string k7 = "bra";
+	std::string k1 = "ball"s;
+	std::string k2 = "base"s;
+	std::string k3 = "baseball"s;
+	std::string k4 = "brand"s;
+	std::string k5 = "brain"s;
+	std::string k6 = "bort"s;
+	std::string k7 = "bra"s;
+	std::string k8 = "human"s;
+	std::string k9 = "humus"s;
+	std::string k10 = "hurma"s;
 	insert(root, k1);
 	insert(root, k2);
 	insert(root, k3);
@@ -17,6 +21,10 @@ int main()
 	insert(root, k5);
 	insert(root, k6);
 	insert(root, k7);
+	insert(root, k8);
+	insert(root, k9);
+	insert(root, k10);
+
 	bool open = true;
 	do
 	{
@@ -42,4 +50,5 @@ int main()
 		}
 		std::cout << '\n';
 	} while (open);
+	erase(root);
 }
